@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const verificationCodeSchema = new mongoose.Schema({
   email: {
@@ -22,4 +22,4 @@ const verificationCodeSchema = new mongoose.Schema({
 // Auto-remove expired codes
 verificationCodeSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
-export default mongoose.model('VerificationCode', verificationCodeSchema);
+module.exports = mongoose.model('VerificationCode', verificationCodeSchema);

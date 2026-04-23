@@ -1,12 +1,9 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 
 dotenv.config();
 
 // Ensure required environment variables are set
-const requiredEnvVars = [
-  "DATABASE_URL",
-  "JWT_SECRET",
-];
+const requiredEnvVars = ["DATABASE_URL", "JWT_SECRET","CLOUDINARY_API_SECRET","CLOUDINARY_API_KEY","CLOUDINARY_CLOUD_NAME"];
 
 for (const envVar of requiredEnvVars) {
   if (!process.env[envVar]) {
@@ -31,12 +28,17 @@ const env = {
 
   // Email
   email: {
-    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+    host: process.env.EMAIL_HOST || "smtp.gmail.com",
     port: Number(process.env.EMAIL_PORT) || 587,
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
-    from: process.env.EMAIL_FROM || 'noreply@recipenest.com'
-  }
+    from: process.env.EMAIL_FROM || "noreply@recipenest.com",
+  },
+
+  // Cloudinary
+  Cloudname: process.env.CLOUDINARY_CLOUD_NAME,
+  APIKey: process.env.CLOUDINARY_API_KEY,
+  APISecret: process.env.CLOUDINARY_API_SECRET,
 };
 
 module.exports = { env };

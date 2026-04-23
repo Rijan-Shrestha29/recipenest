@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const bookmarkSchema = new mongoose.Schema({
   recipeId: {
@@ -18,4 +18,4 @@ const bookmarkSchema = new mongoose.Schema({
 // Ensure one bookmark per user per recipe
 bookmarkSchema.index({ recipeId: 1, userId: 1 }, { unique: true });
 
-export default mongoose.model('Bookmark', bookmarkSchema);
+module.exports = mongoose.model('Bookmark', bookmarkSchema);

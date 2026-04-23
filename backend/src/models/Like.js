@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const likeSchema = new mongoose.Schema({
   recipeId: {
@@ -18,4 +18,4 @@ const likeSchema = new mongoose.Schema({
 // Ensure one like per user per recipe
 likeSchema.index({ recipeId: 1, userId: 1 }, { unique: true });
 
-export default mongoose.model('Like', likeSchema);
+module.exports = mongoose.model('Like', likeSchema);

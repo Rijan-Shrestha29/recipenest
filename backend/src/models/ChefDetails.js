@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const chefDetailsSchema = new mongoose.Schema({
   userId: {
@@ -37,4 +37,4 @@ const chefDetailsSchema = new mongoose.Schema({
   timestamps: true
 });
 
-export default mongoose.model('ChefDetails', chefDetailsSchema);
+module.exports = mongoose.model('ChefDetails', chefDetailsSchema);

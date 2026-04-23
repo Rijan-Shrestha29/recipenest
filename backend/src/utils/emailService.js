@@ -1,31 +1,54 @@
-import nodemailer from 'nodemailer';
-import { env } from '../config/env.js';
+const nodemailer = require('nodemailer');
+const { env } = require('../config/env');
 
-// Create transporter
-const transporter = nodemailer.createTransport({
-  host: env.email.host,
-  port: env.email.port,
-  secure: env.email.port === 465, // true for 465, false for other ports
-  auth: {
-    user: env.email.user,
-    pass: env.email.pass
+// Create transporter only if email credentials are provided
+let transporter = null;
+
+const isEmailConfigured = () => {
+  return env.email.user && 
+         env.email.pass && 
+         env.email.user !== 'test@gmail.com' &&
+         env.email.host &&
+         env.email.from &&
+         env.email.from.includes('.');
+};
+
+if (isEmailConfigured()) {
+  try {
+    transporter = nodemailer.createTransport({
+      host: env.email.host,
+      port: env.email.port,
+      secure: env.email.port === 465,
+      auth: {
+        user: env.email.user,
+        pass: env.email.pass
+      },
+      tls: {
+        rejectUnauthorized: false
+      }
+    });
+
+    transporter.verify((error, success) => {
+      if (error) {
+        console.error('❌ Email service error:', error.message);
+        transporter = null;
+      } else {
+        console.log('✅ Email service ready to send messages');
+      }
+    });
+  } catch (error) {
+    console.error('❌ Failed to initialize email transporter:', error.message);
+    transporter = null;
   }
-});
+} else {
+  console.log('📧 Email service not configured. Using console logging instead.');
+}
 
-// Verify transporter connection
-transporter.verify((error, success) => {
-  if (error) {
-    console.error('❌ Email service error:', error);
-  } else {
-    console.log('✅ Email service ready to send messages');
-  }
-});
-
-export const sendVerificationEmail = async (email, name, code) => {
+// Send verification email
+const sendVerificationEmail = async (email, name, code) => {
   const verificationUrl = `${env.frontendUrl}/verify-email?email=${encodeURIComponent(email)}&code=${code}`;
   
-  const mailOptions = {
-    from: env.email.from,
+  const emailContent = {
     to: email,
     subject: 'Verify Your Email - RecipeNest',
     html: `
@@ -43,55 +66,123 @@ export const sendVerificationEmail = async (email, name, code) => {
           ${code}
         </div>
         <p>This code will expire in 10 minutes.</p>
-        <p>If you didn't create an account with RecipeNest, please ignore this email.</p>
         <hr style="margin: 20px 0;" />
         <p style="color: #6b7280; font-size: 12px;">RecipeNest - Where every recipe tells a story</p>
       </div>
     `
   };
 
-  try {
-    await transporter.sendMail(mailOptions);
-    console.log(`📧 Verification email sent to ${email}`);
+  if (transporter && isEmailConfigured()) {
+    try {
+      await transporter.sendMail({ from: env.email.from, ...emailContent });
+      console.log(`📧 Verification email sent to ${email}`);
+      return true;
+    } catch (error) {
+      console.error('❌ Error sending email:', error.message);
+      console.log('==========================================');
+      console.log(`📧 VERIFICATION EMAIL (FALLBACK MODE)`);
+      console.log(`To: ${email}`);
+      console.log(`Verification Code: ${code}`);
+      console.log(`Verification URL: ${verificationUrl}`);
+      console.log('==========================================');
+      return true;
+    }
+  } else {
+    console.log('==========================================');
+    console.log(`📧 VERIFICATION EMAIL (DEV MODE)`);
+    console.log(`To: ${email}`);
+    console.log(`Verification Code: ${code}`);
+    console.log(`Verification URL: ${verificationUrl}`);
+    console.log('==========================================');
     return true;
-  } catch (error) {
-    console.error('❌ Error sending email:', error);
-    throw new Error('Failed to send verification email');
   }
 };
 
-export const sendPasswordResetEmail = async (email, name, resetToken) => {
-  const resetUrl = `${env.frontendUrl}/reset-password?token=${resetToken}`;
-  
-  const mailOptions = {
-    from: env.email.from,
+// Send password reset OTP
+const sendPasswordResetOTP = async (email, name, otp) => {
+  const emailContent = {
     to: email,
-    subject: 'Password Reset Request - RecipeNest',
+    subject: 'Password Reset OTP - RecipeNest',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #f97316;">Password Reset Request</h2>
         <p>Hello ${name},</p>
-        <p>You requested to reset your password. Click the button below to proceed:</p>
-        <div style="text-align: center; margin: 30px 0;">
-          <a href="${resetUrl}" 
-             style="background-color: #f97316; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
-            Reset Password
-          </a>
+        <p>You requested to reset your password. Use the following OTP to verify your identity:</p>
+        <div style="background-color: #f3f4f6; padding: 20px; font-size: 32px; text-align: center; letter-spacing: 10px; font-weight: bold; margin: 20px 0;">
+          ${otp}
         </div>
-        <p>If you didn't request this, please ignore this email.</p>
-        <p>This link will expire in 1 hour.</p>
+        <p>This OTP will expire in 10 minutes.</p>
+        <p>If you didn't request this, please ignore this email and your password will remain unchanged.</p>
         <hr style="margin: 20px 0;" />
         <p style="color: #6b7280; font-size: 12px;">RecipeNest - Where every recipe tells a story</p>
       </div>
     `
   };
 
-  try {
-    await transporter.sendMail(mailOptions);
-    console.log(`📧 Password reset email sent to ${email}`);
+  if (transporter && isEmailConfigured()) {
+    try {
+      await transporter.sendMail({ from: env.email.from, ...emailContent });
+      console.log(`📧 Password reset OTP sent to ${email}`);
+      return true;
+    } catch (error) {
+      console.error('❌ Error sending OTP email:', error.message);
+      console.log('==========================================');
+      console.log(`📧 PASSWORD RESET OTP (FALLBACK MODE)`);
+      console.log(`To: ${email}`);
+      console.log(`OTP: ${otp}`);
+      console.log('==========================================');
+      return true;
+    }
+  } else {
+    console.log('==========================================');
+    console.log(`📧 PASSWORD RESET OTP (DEV MODE)`);
+    console.log(`To: ${email}`);
+    console.log(`OTP: ${otp}`);
+    console.log('==========================================');
     return true;
-  } catch (error) {
-    console.error('❌ Error sending password reset email:', error);
-    throw new Error('Failed to send password reset email');
   }
+};
+
+// Send password reset success email
+const sendPasswordResetSuccess = async (email, name) => {
+  const emailContent = {
+    to: email,
+    subject: 'Password Reset Successful - RecipeNest',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #10b981;">Password Reset Successful</h2>
+        <p>Hello ${name},</p>
+        <p>Your password has been successfully reset.</p>
+        <p>If you did not perform this action, please contact support immediately.</p>
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${env.frontendUrl}/login" 
+             style="background-color: #f97316; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
+            Login to Your Account
+          </a>
+        </div>
+        <hr style="margin: 20px 0;" />
+        <p style="color: #6b7280; font-size: 12px;">RecipeNest - Where every recipe tells a story</p>
+      </div>
+    `
+  };
+
+  if (transporter && isEmailConfigured()) {
+    try {
+      await transporter.sendMail({ from: env.email.from, ...emailContent });
+      console.log(`📧 Password reset success email sent to ${email}`);
+      return true;
+    } catch (error) {
+      console.error('❌ Error sending success email:', error.message);
+      return true;
+    }
+  } else {
+    console.log(`📧 Password reset successful for: ${email}`);
+    return true;
+  }
+};
+
+module.exports = { 
+  sendVerificationEmail, 
+  sendPasswordResetOTP, 
+  sendPasswordResetSuccess 
 };

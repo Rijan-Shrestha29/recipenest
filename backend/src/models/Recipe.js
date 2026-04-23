@@ -1,9 +1,18 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const ingredientSchema = new mongoose.Schema({
-  name: String,
-  quantity: String,
-  unit: String
+  name: {
+    type: String,
+    required: true
+  },
+  quantity: {
+    type: String,
+    required: true
+  },
+  unit: {
+    type: String,
+    required: true
+  }
 });
 
 const recipeSchema = new mongoose.Schema({
@@ -44,7 +53,10 @@ const recipeSchema = new mongoose.Schema({
     required: true
   },
   ingredients: [ingredientSchema],
-  instructions: [String],
+  instructions: [{
+    type: String,
+    required: true
+  }],
   image: {
     type: String,
     required: true
@@ -67,4 +79,4 @@ const recipeSchema = new mongoose.Schema({
 // Index for search
 recipeSchema.index({ title: 'text', description: 'text', tags: 'text' });
 
-export default mongoose.model('Recipe', recipeSchema);
+module.exports = mongoose.model('Recipe', recipeSchema);

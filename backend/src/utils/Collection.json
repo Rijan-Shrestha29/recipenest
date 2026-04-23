@@ -1,0 +1,1737 @@
+{
+  "info": {
+    "_postman_id": "150239ff-e827-4b98-915c-1d6e608abf9d",
+    "name": "RecipeNest API",
+    "description": "Complete API collection for RecipeNest - A recipe sharing platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "50105463",
+    "_collection_link": "https://go.postman.co/collection/50105463-150239ff-e827-4b98-915c-1d6e608abf9d?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            },
+            "description": "Check if server is running"
+          },
+          "response": []
+        },
+        {
+          "name": "API Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ""
+              ]
+            },
+            "description": "Get API information and available endpoints"
+          },
+          "response": []
+        },
+        {
+          "name": "Register User (Food Lover)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rijan Shrestha\",\n  \"email\": \"rijan0518@gmail.com\",\n  \"password\": \"Rijan@123456\",\n  \"role\": \"foodlover\"\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/auth/register",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Register a new food lover user"
+          },
+          "response": []
+        },
+        {
+          "name": "Register Chef",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Chef\",\n  \"email\": \"newchef@example.com\",\n  \"password\": \"Chef@123456\",\n  \"role\": \"chef\",\n  \"bio\": \"Passionate chef with 5 years experience\",\n  \"specialty\": \"Italian Cuisine\",\n  \"experience\": 5\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/auth/register",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Register a new chef"
+          },
+          "response": []
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{userEmail}}\",\n  \"password\": \"{{userPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/auth/login",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Login with user credentials"
+          },
+          "response": []
+        },
+        {
+          "name": "Login Chef",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{chefEmail}}\",\n  \"password\": \"{{chefPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/auth/login",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Login with chef credentials"
+          },
+          "response": []
+        },
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/auth/login",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Login with admin credentials"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/auth/me",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            },
+            "description": "Get current logged-in user information"
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"rijan0518@gmail.com\",\n  \"code\": \"707516\"\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/auth/verify-email",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "auth",
+                "verify-email"
+              ]
+            },
+            "description": "Verify user email with code"
+          },
+          "response": []
+        },
+        {
+          "name": "Resend Verification Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"rijan0518@gmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/auth/resend-verification",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "auth",
+                "resend-verification"
+              ]
+            },
+            "description": "Resend email verification code"
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password (Logged In User)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": " Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": " application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"currentPassword\": \"password123\",\r\n    \"newPassword\": \"newpassword456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{apiUrl}}/auth/change-password",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "auth",
+                "change-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Forgot Password (Request OTP)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": " application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"rijan0518@gmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{apiUrl}}/auth/forgot-password",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "auth",
+                "forgot-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": " application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"rijan0518@gmail.com\",\r\n  \"otp\": \"960219\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{apiUrl}}/auth/verify-reset-otp",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "auth",
+                "verify-reset-otp"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password (After OTP Verification)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": " application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"rijan0518@gmail.com\",\r\n    \"resetToken\": \"z6rflz4l95e\",\r\n    \"newPassword\": \"newpassword789\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{apiUrl}}/auth/reset-password",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "auth",
+                "reset-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Resend OTP (If expired)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": " application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"rijan0518@gmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{apiUrl}}/auth/resend-reset-otp",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "auth",
+                "resend-reset-otp"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2. Users",
+      "item": [
+        {
+          "name": "Get All Users (Admin Only)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminaccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/users",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            },
+            "description": "Get all users (requires admin token)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Chefs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{apiUrl}}/users/chefs",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "users",
+                "chefs"
+              ]
+            },
+            "description": "Get all registered chefs"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Chef by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{apiUrl}}/users/chefs/{{chefId}}",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "users",
+                "chefs",
+                "{{chefId}}"
+              ]
+            },
+            "description": "Get detailed chef information by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/users/profile",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "users",
+                "profile"
+              ]
+            },
+            "description": "Get current user profile"
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Name\",\n  \"avatar\": \"https://example.com/new-avatar.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/users/profile",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "users",
+                "profile"
+              ]
+            },
+            "description": "Update user profile information"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Chef Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bio\": \"Updated bio with more experience\",\n  \"specialty\": \"Mediterranean Cuisine\",\n  \"experience\": 8,\n  \"socialMedia\": {\n    \"instagram\": \"@chefupdated\",\n    \"twitter\": \"@chefupdate\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/users/chef/profile",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "users",
+                "chef",
+                "profile"
+              ]
+            },
+            "description": "Update chef-specific profile information"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/users/stats",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "users",
+                "stats"
+              ]
+            },
+            "description": "Get user statistics (recipes, comments, likes, bookmarks)"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User Account",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/users/profile",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "users",
+                "profile"
+              ]
+            },
+            "description": "Delete user account and all associated data"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "3. Recipes",
+      "item": [
+        {
+          "name": "Get All Recipes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{apiUrl}}/recipes?page=1&limit=12",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "recipes"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "12"
+                }
+              ]
+            },
+            "description": "Get all approved recipes with pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Recipes with Filters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{apiUrl}}/recipes?search=pizza&category=Main Course&difficulty=Medium&sort=popular",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "recipes"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "pizza"
+                },
+                {
+                  "key": "category",
+                  "value": "Main Course"
+                },
+                {
+                  "key": "difficulty",
+                  "value": "Medium"
+                },
+                {
+                  "key": "sort",
+                  "value": "popular"
+                }
+              ]
+            },
+            "description": "Get recipes with filters (search, category, difficulty, sort)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Trending Recipes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{apiUrl}}/recipes/trending",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "recipes",
+                "trending"
+              ]
+            },
+            "description": "Get trending recipes based on views"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Recipe Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{apiUrl}}/recipes/categories",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "recipes",
+                "categories"
+              ]
+            },
+            "description": "Get all recipe categories with counts"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Recipe by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/recipes/{{recipeId}}",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "recipes",
+                "{{recipeId}}"
+              ]
+            },
+            "description": "Get detailed recipe information by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Recipe (Chef Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{chefaccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Spaghetti Carbonara\",\n  \"description\": \"Classic Italian pasta dish with eggs, cheese, and pancetta\",\n  \"category\": \"Main Course\",\n  \"difficulty\": \"Medium\",\n  \"prepTime\": 15,\n  \"cookTime\": 20,\n  \"servings\": 4,\n  \"ingredients\": [\n    {\n      \"name\": \"Spaghetti\",\n      \"quantity\": \"400\",\n      \"unit\": \"g\"\n    },\n    {\n      \"name\": \"Pancetta\",\n      \"quantity\": \"150\",\n      \"unit\": \"g\"\n    },\n    {\n      \"name\": \"Eggs\",\n      \"quantity\": \"4\",\n      \"unit\": \"pcs\"\n    },\n    {\n      \"name\": \"Parmesan Cheese\",\n      \"quantity\": \"100\",\n      \"unit\": \"g\"\n    }\n  ],\n  \"instructions\": [\n    \"Cook pasta in salted water\",\n    \"Fry pancetta until crispy\",\n    \"Mix eggs and cheese\",\n    \"Combine everything with pasta\",\n    \"Serve immediately\"\n  ],\n  \"image\": \"https://example.com/carbonara.jpg\",\n  \"tags\": [\"Italian\", \"Pasta\", \"Quick\"]\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/recipes",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "recipes"
+              ]
+            },
+            "description": "Create a new recipe (chef only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Recipe",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{chefaccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Recipe Title\",\n  \"description\": \"Updated description\",\n  \"difficulty\": \"Hard\"\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/recipes/{{recipeId}}",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "recipes",
+                "{{recipeId}}"
+              ]
+            },
+            "description": "Update recipe (owner or admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Recipe",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{chefaccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/recipes/{{recipeId}}",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "recipes",
+                "{{recipeId}}"
+              ]
+            },
+            "description": "Delete recipe (owner or admin only)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "4. Comments",
+      "item": [
+        {
+          "name": "Get Comments by Recipe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{apiUrl}}/comments/recipe/{{recipeId}}",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "comments",
+                "recipe",
+                "{{recipeId}}"
+              ]
+            },
+            "description": "Get all comments for a specific recipe"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Comment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recipeId\": \"{{recipeId}}\",\n  \"content\": \"This recipe is amazing! I tried it and it turned out perfect. Thank you for sharing!\"\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/comments",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "comments"
+              ]
+            },
+            "description": "Add a comment to a recipe"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Comment",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Updated comment content\"\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/comments/{{commentId}}",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "comments",
+                "{{commentId}}"
+              ]
+            },
+            "description": "Update your comment"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Comment",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/comments/{{commentId}}",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "comments",
+                "{{commentId}}"
+              ]
+            },
+            "description": "Delete your comment"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "5. Likes",
+      "item": [
+        {
+          "name": "Get Likes by Recipe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{apiUrl}}/likes/recipe/{{recipeId}}",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "likes",
+                "recipe",
+                "{{recipeId}}"
+              ]
+            },
+            "description": "Get all likes for a specific recipe"
+          },
+          "response": []
+        },
+        {
+          "name": "Toggle Like",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recipeId\": \"{{recipeId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/likes/toggle",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "likes",
+                "toggle"
+              ]
+            },
+            "description": "Like or unlike a recipe"
+          },
+          "response": []
+        },
+        {
+          "name": "Check Like Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/likes/check/{{recipeId}}",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "likes",
+                "check",
+                "{{recipeId}}"
+              ]
+            },
+            "description": "Check if user has liked a recipe"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "6. Bookmarks",
+      "item": [
+        {
+          "name": "Get My Bookmarks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/bookmarks/my-bookmarks",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "bookmarks",
+                "my-bookmarks"
+              ]
+            },
+            "description": "Get all bookmarked recipes for current user"
+          },
+          "response": []
+        },
+        {
+          "name": "Toggle Bookmark",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recipeId\": \"{{recipeId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/bookmarks/toggle",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "bookmarks",
+                "toggle"
+              ]
+            },
+            "description": "Bookmark or remove bookmark from a recipe"
+          },
+          "response": []
+        },
+        {
+          "name": "Check Bookmark Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/bookmarks/check/{{recipeId}}",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "bookmarks",
+                "check",
+                "{{recipeId}}"
+              ]
+            },
+            "description": "Check if user has bookmarked a recipe"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "7. Admin",
+      "item": [
+        {
+          "name": "Get Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminaccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/admin/stats",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "admin",
+                "stats"
+              ]
+            },
+            "description": "Get admin dashboard statistics"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Recipes (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminaccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/admin/recipes?page=1&limit=2",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "admin",
+                "recipes"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "2"
+                }
+              ]
+            },
+            "description": "Get all recipes with optional status filter"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pending Recipes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminaccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/admin/recipes/pending",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "admin",
+                "recipes",
+                "pending"
+              ]
+            },
+            "description": "Get all recipes pending approval"
+          },
+          "response": []
+        },
+        {
+          "name": "Approve Recipe",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminaccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/admin/recipes/{{recipeId}}/approve",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "admin",
+                "recipes",
+                "{{recipeId}}",
+                "approve"
+              ]
+            },
+            "description": "Approve a pending recipe"
+          },
+          "response": []
+        },
+        {
+          "name": "Reject Recipe",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminaccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Inappropriate content or missing information\"\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/admin/recipes/{{recipeId}}/reject",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "admin",
+                "recipes",
+                "{{recipeId}}",
+                "reject"
+              ]
+            },
+            "description": "Reject a pending recipe with reason"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Recipe (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminaccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/admin/recipes/{{recipeId}}",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "admin",
+                "recipes",
+                "{{recipeId}}"
+              ]
+            },
+            "description": "Delete any recipe (admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Users (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminaccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/admin/users",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "admin",
+                "users"
+              ]
+            },
+            "description": "Get all registered users"
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Role",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminaccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"superadmin\"\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/admin/users/{{userId}}/role",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "admin",
+                "users",
+                "{{userId}}",
+                "role"
+              ]
+            },
+            "description": "Change user role (foodlover/chef/superadmin)"
+          },
+          "response": []
+        },
+        {
+          "name": "Suspend User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminaccessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Violation of community guidelines\"\n}"
+            },
+            "url": {
+              "raw": "{{apiUrl}}/admin/users/{{userId}}/suspend",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "admin",
+                "users",
+                "{{userId}}",
+                "suspend"
+              ]
+            },
+            "description": "Suspend a user account"
+          },
+          "response": []
+        },
+        {
+          "name": "Unsuspend User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminaccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/admin/users/{{userId}}/unsuspend",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "admin",
+                "users",
+                "{{userId}}",
+                "unsuspend"
+              ]
+            },
+            "description": "Unsuspend a user account"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Comments (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminaccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/admin/comments",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "admin",
+                "comments"
+              ]
+            },
+            "description": "Get all comments from all users"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Comment (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminaccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/admin/comments/{{commentId}}",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "admin",
+                "comments",
+                "{{commentId}}"
+              ]
+            },
+            "description": "Delete any comment (admin only)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "8. Image Upload",
+      "item": [
+        {
+          "name": "Upload Single Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": [
+                    "",
+                    "As3P31NJW/Helio (1).jpg"
+                  ]
+                },
+                {
+                  "key": "folder",
+                  "value": "recipenest/general",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{apiUrl}}/upload/image",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "upload",
+                "image"
+              ]
+            },
+            "description": "Upload a single image to Cloudinary"
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Multiple Images",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "images",
+                  "type": "file",
+                  "value": ""
+                },
+                {
+                  "key": "images",
+                  "type": "file",
+                  "value": ""
+                },
+                {
+                  "key": "folder",
+                  "value": "recipenest/general",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{apiUrl}}/upload/images",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "upload",
+                "images"
+              ]
+            },
+            "description": "Upload multiple images at once"
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Avatar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "value": ""
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{apiUrl}}/upload/avatar",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "upload",
+                "avatar"
+              ]
+            },
+            "description": "Update user profile avatar"
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Recipe Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "value": ""
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{apiUrl}}/upload/recipe-image",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "upload",
+                "recipe-image"
+              ]
+            },
+            "description": "Upload image for a recipe (chef only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Chef Cover Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "value": ""
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{apiUrl}}/upload/cover-image",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "upload",
+                "cover-image"
+              ]
+            },
+            "description": "Upload chef cover/banner image"
+          },
+          "response": []
+        },
+        {
+          "name": "Test Cloudinary Config",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/upload/test-config",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "upload",
+                "test-config"
+              ]
+            },
+            "description": "Test if Cloudinary is properly configured"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Image",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{apiUrl}}/upload/image/{{publicId}}",
+              "host": [
+                "{{apiUrl}}"
+              ],
+              "path": [
+                "upload",
+                "image",
+                "{{publicId}}"
+              ]
+            },
+            "description": "Delete an image from Cloudinary"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "apiUrl",
+      "value": "http://localhost:5000/api"
+    }
+  ]
+}
