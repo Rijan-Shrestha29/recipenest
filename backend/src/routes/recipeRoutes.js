@@ -8,14 +8,18 @@ const {
   getRecipeById,
   createRecipe,
   updateRecipe,
-  deleteRecipe
+  deleteRecipe,
+  getChefRecipes
 } = require('../controllers/recipeController');
 
 // Public routes
 router.get('/', getRecipes);
 router.get('/categories', getRecipeCategories);
 router.get('/trending', getTrendingRecipes);
-router.get('/:id', protect, getRecipeById);
+router.get('/:id', getRecipeById);
+
+// Chef-specific route - MUST be before the /:id route
+router.get('/chef/my-recipes', protect, chefOnly, getChefRecipes);
 
 // Protected routes
 router.post('/', protect, chefOnly, createRecipe);

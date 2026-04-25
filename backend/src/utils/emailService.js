@@ -55,13 +55,7 @@ const sendVerificationEmail = async (email, name, code) => {
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #f97316;">Welcome to RecipeNest, ${name}!</h2>
         <p>Thank you for signing up! Please verify your email address to start exploring delicious recipes.</p>
-        <div style="text-align: center; margin: 30px 0;">
-          <a href="${verificationUrl}" 
-             style="background-color: #f97316; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
-            Verify Email Address
-          </a>
-        </div>
-        <p>Or use this verification code:</p>
+        <p>use this verification code:</p>
         <div style="background-color: #f3f4f6; padding: 15px; font-size: 24px; text-align: center; letter-spacing: 5px; font-weight: bold;">
           ${code}
         </div>
@@ -154,12 +148,6 @@ const sendPasswordResetSuccess = async (email, name) => {
         <p>Hello ${name},</p>
         <p>Your password has been successfully reset.</p>
         <p>If you did not perform this action, please contact support immediately.</p>
-        <div style="text-align: center; margin: 30px 0;">
-          <a href="${env.frontendUrl}/login" 
-             style="background-color: #f97316; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
-            Login to Your Account
-          </a>
-        </div>
         <hr style="margin: 20px 0;" />
         <p style="color: #6b7280; font-size: 12px;">RecipeNest - Where every recipe tells a story</p>
       </div>

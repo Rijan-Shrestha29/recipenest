@@ -39,7 +39,7 @@ const changePassword = async (req, res) => {
     }
     
     // Verify current password
-    const isMatch = await user.comparePassword(currentPassword);
+    const isMatch = await user.matchPassword(currentPassword);
     if (!isMatch) {
       return res.status(401).json({
         success: false,
@@ -47,16 +47,13 @@ const changePassword = async (req, res) => {
       });
     }
     
-    // Hash new password manually and update
+    // Hash new password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
     
-    // Update using findByIdAndUpdate to skip pre-save middleware
-    await User.findByIdAndUpdate(
-      req.user._id,
-      { password: hashedPassword },
-      { new: true }
-    );
+    // Update password
+    user.password = hashedPassword;
+    await user.save();
     
     res.json({
       success: true,

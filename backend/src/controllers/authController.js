@@ -3,6 +3,7 @@ const ChefDetails = require('../models/ChefDetails');
 const VerificationCode = require('../models/VerificationCode');
 const { generateToken } = require('../utils/generateToken');
 const { sendVerificationEmail } = require('../utils/emailService');
+const bcrypt = require('bcryptjs');
 
 // Generate random verification code
 const generateVerificationCode = () => {

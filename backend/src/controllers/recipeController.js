@@ -172,12 +172,83 @@ const getTrendingRecipes = async (req, res) => {
   }
 };
 
+// @desc    Get all recipes for a specific chef (including all statuses)
+// @route   GET /api/recipes/chef/my-recipes
+// @access  Private (Chef only)
+const getChefRecipes = async (req, res) => {
+  try {
+    // Get the logged-in chef's ID from the token
+    const chefId = req.user._id;
+    
+    // Verify user is a chef
+    if (req.user.role !== 'chef') {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied. Chef only endpoint.'
+      });
+    }
+    
+    // Get all recipes for this chef (no status filter - get all)
+    const recipes = await Recipe.find({ chefId: chefId })
+      .populate('chefId', 'name email avatar specialty')
+      .sort({ createdAt: -1 });
+    
+    // Get counts for each status
+    const pendingCount = await Recipe.countDocuments({ 
+      chefId: chefId, 
+      approvalStatus: 'pending' 
+    });
+    const approvedCount = await Recipe.countDocuments({ 
+      chefId: chefId, 
+      approvalStatus: 'approved' 
+    });
+    const rejectedCount = await Recipe.countDocuments({ 
+      chefId: chefId, 
+      approvalStatus: 'rejected' 
+    });
+    
+    // Get additional stats
+    const totalViews = recipes.reduce((sum, recipe) => sum + (recipe.views || 0), 0);
+    const totalLikes = await Like.countDocuments({ 
+      recipeId: { $in: recipes.map(r => r._id) } 
+    });
+    
+    res.json({
+      success: true,
+      count: recipes.length,
+      recipes: recipes.map(recipe => ({
+        ...recipe.toObject(),
+        id: recipe._id,
+        chefName: recipe.chefId?.name,
+        chefAvatar: recipe.chefId?.avatar
+      })),
+      stats: {
+        pending: pendingCount,
+        approved: approvedCount,
+        rejected: rejectedCount,
+        totalViews,
+        totalLikes
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
 // @desc    Get single recipe
 // @route   GET /api/recipes/:id
 // @access  Public
+// @desc    Get recipe by ID with full details and increment view count
+// @route   GET /api/recipes/:id
+// @access  Public/Private
 const getRecipeById = async (req, res) => {
   try {
-    const recipe = await Recipe.findById(req.params.id).populate('chefId', 'name avatar');
+    const recipe = await Recipe.findById(req.params.id)
+      .populate('chefId', 'name email avatar specialty bio experience profileImage coverImage socialMedia');
     
     if (!recipe) {
       return res.status(404).json({
@@ -186,8 +257,9 @@ const getRecipeById = async (req, res) => {
       });
     }
     
-    // Increment views
-    recipe.views += 1;
+    // Increment views - IMPORTANT: Only increment when recipe is viewed
+    // This should happen regardless of whether user is logged in
+    recipe.views = (recipe.views || 0) + 1;
     await recipe.save();
     
     const likesCount = await Like.countDocuments({ recipeId: recipe._id });
@@ -207,11 +279,15 @@ const getRecipeById = async (req, res) => {
       success: true,
       recipe: {
         ...recipe.toObject(),
+        id: recipe._id,
         likesCount,
         bookmarksCount,
         commentsCount,
         isLiked: !!isLiked,
-        isBookmarked: !!isBookmarked
+        isBookmarked: !!isBookmarked,
+        chefName: recipe.chefId?.name,
+        chefAvatar: recipe.chefId?.avatar,
+        chefSpecialty: recipe.chefId?.specialty
       }
     });
   } catch (error) {
@@ -338,5 +414,6 @@ module.exports = {
   getRecipeById,
   createRecipe,
   updateRecipe,
-  deleteRecipe
+  deleteRecipe,
+  getChefRecipes
 };
